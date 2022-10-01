@@ -33,7 +33,7 @@ class APIResponse:
         return APIResponse(False, "Success", 200, data)
 
 class AddData(Serializable):
-    def __init__(self, success, data) -> None:
+    def __init__(self, success) -> None:
         self.success = success
     
     def serialize(self) -> dict:
@@ -42,16 +42,14 @@ class AddData(Serializable):
         }
 
 class Config(Serializable):
-    def __init__(self, success, domains, blocked_words) -> None:
-        self.success = success
-        self.domains = domains
-        self.blocked_words = blocked_words
-    
-    def serialize(self) -> dict:
-        return {
-            "success": self.success,
-            "domains": self.domains,
-            "blockedWords": self.blocked_words
-        }
+    settings = {'domain':[], 'blockedWords': []}
+    @staticmethod
+    def serialize() -> dict:
+        return Config.settings
 
+class InterceptedJson:
+    data = {}
+    @staticmethod
+    def serialize() -> dict:
+        return InterceptedJson.data
     
