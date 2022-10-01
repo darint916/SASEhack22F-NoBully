@@ -8,14 +8,25 @@ import { Content, Footer } from 'antd/lib/layout/layout';
 import NavBar from './features/navbar/NavBar';
 import axios from 'axios';
 import Dashboard from './features/Dashboard';
+import { useAppDispatch } from './app/hooks';
+import { setInterceptionData } from './features/intercept/InterceptionDataSlice';
+
 
 function App() {
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    axios.get('http://localhost:5000/api/testing').then((res) => {
-      console.log(res);
-    });
+    const interval = setInterval(() => {
+      axios.get('http://10.8.0.4:7000/api/intercept/get')
+      .then(
+        (response) => {
+          // console.log(response.data.data);
+          dispatch(setInterceptionData(response.data.data));
+        });
+        },3000);
   }, []);
+  
 
   return (
     <Dashboard/>

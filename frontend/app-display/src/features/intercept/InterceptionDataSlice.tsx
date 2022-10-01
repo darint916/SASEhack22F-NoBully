@@ -43,8 +43,9 @@ export const InterceptionDataSlice = createSlice({
     name: "interceptionData",
     initialState,
     reducers: {
-        setInterceptionData: (state, action: PayloadAction<interceptionDataState>) => {
-            state = action.payload;
+        setInterceptionData: (state, action: PayloadAction<DataClass>) => {
+            state.data = action.payload;
+            console.log(action.payload);
         }
     }
 });

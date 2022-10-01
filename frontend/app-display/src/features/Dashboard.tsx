@@ -20,16 +20,16 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 // import { mainListItems, secondaryListItems } from './listItems';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
-// import Orders from './Orders';
+import InterceptionTable from './intercept/InterceptionTable';
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://en.wikipedia.org/wiki/Political_geography_of_Nineteen_Eighty-Four#Oceania">
+        Ingsoc
       </Link>{' '}
-      {new Date().getFullYear()}
+      1984
       {'.'}
     </Typography>
   );
@@ -192,10 +192,10 @@ function DashboardContent() {
                   {/* <Deposits /> */}
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* Interceptions */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {/* <Orders /> */}
+                  <InterceptionTable />
                 </Paper>
               </Grid>
             </Grid>
