@@ -22,8 +22,9 @@ class InterceptorHttp(IMitmProxyAddon):
             return
 
         if (utils.match_url(self.config.domains, flow.request.url)):
-            ctx.log.alert(f"Request intercepted. {flow.request.url}")
-            self.message_intercepted.append(InterceptedMessage(flow.request.content, flow.request.url, "ASdf"))
+            if (utils.match_word(self.config.blockedWords, flow.request.text)):
+                ctx.log.alert(f"Request intercepted. {flow.request.url}")
+                self.message_intercepted.append(InterceptedMessage(flow.request.text, flow.request.url, "Request"))
 
     def report(self) -> Dict[str, str]:
         return {

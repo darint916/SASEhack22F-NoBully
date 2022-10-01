@@ -1,6 +1,5 @@
 import json
-from sqlite3 import Timestamp
-
+from time import time
 
 class InterceptedMessage:
 
@@ -8,9 +7,9 @@ class InterceptedMessage:
         self.message: str = message
         self.domain: str = domain
         self.reason: str = reason
-        self.timestamp: str = Timestamp.now()
+        self.timestamp: str = time()
 
-    def to_dict(self, indent=4):
+    def to_dict(self):
         return {
             'message': self.message,
             'domain': self.domain,

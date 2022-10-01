@@ -2,6 +2,8 @@ from typing import Dict, List
 from mitmproxy import ctx
 from mitmproxy import http
 from mitmproxy.websocket import WebSocketMessage
+from request_proxy.addons.utils import utils
+from request_proxy.addons.utils.config import Config
 from request_proxy.interface.IMitmProxyAddon import IMitmProxyAddon
 from request_proxy.InterceptedMessage import InterceptedMessage
 
@@ -9,16 +11,26 @@ class InterceptorWs(IMitmProxyAddon):
 
     def __init__(self):
         self._activated = True
-        self.config = {'domains': [], 'blockedWords': []}
+        self.config: Config = Config()
         self.message_intercepted: List[InterceptedMessage] = []
 
     def websocket_message(self, flow: http.HTTPFlow):
         if (not self._activated):
             return
 
-        # ctx.log.alert(f"A WS Message has been posted. {flow}")
-        msg: WebSocketMessage = flow.websocket.messages[-1]
-        ctx.log.alert("")
+        if (utils.match_url(self.config.domains, flow.request.url)):
+            msg = flow.websocket.messages[-1].content
+            try:
+                msg_idx = msg.index(b'[')
+            except ValueError:
+                return
+
+            msg_decoded = msg[msg_idx:].decode('utf-8')
+            # ctx.log.alert()
+            if (utils.match_word(self.config.blockedWords, msg_decoded)):
+                ctx.log.alert(f"Websocket message intercepted --. {flow.request.url}")
+                flow.websocket.messages[-1].drop()
+                self.message_intercepted.append(InterceptedMessage(flow.request.text, flow.request.url, "Websocket"))
 
     def report(self) -> Dict[str, str]:
         return {

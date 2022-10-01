@@ -2,6 +2,9 @@ import time
 from typing import List
 from request_proxy.interface.IMitmProxyAddon import IMitmProxyAddon
 from request_proxy.background.api_client import ApiClient
+import traceback
+
+from mitmproxy import ctx
 
 class Background:
 
@@ -14,6 +17,7 @@ class Background:
         report = {}
         for addon in self.addons:
             report[addon.addon_name()] = addon.report()
+            ctx.log.error(f"Report: {report}")
         self.api.post_report(report)
 
     def pull_cfg(self):
@@ -23,8 +27,16 @@ class Background:
             for addon in self.addons:
                 addon.use_config(config)
 
+    def _write_dbg_file(self, msg):
+        with open("dbg.txt", "a") as f:
+            f.write(msg + "\n")
+
     def start(self):
         while True:
-            self.pull_cfg()
-            self.report()
-            time.sleep(30)
+            try:
+                self.pull_cfg()
+                time.sleep(30)
+                self.report()
+            except Exception as e:
+                data = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+                self._write_dbg_file(data + "\n")
