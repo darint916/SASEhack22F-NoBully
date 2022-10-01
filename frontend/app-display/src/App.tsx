@@ -7,6 +7,7 @@ import { BackTop, Layout } from 'antd';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import NavBar from './features/navbar/NavBar';
 import axios from 'axios';
+import Dashboard from './features/Dashboard';
 
 function App() {
 
@@ -17,16 +18,17 @@ function App() {
   }, []);
 
   return (
-    <Layout>
-      <BackTop/>
-      <Layout style={{minHeight: '100vh', marginLeft: 200}}>
-        <NavBar/>
-        <Content style={{padding: '0 50px'}}>
-          <Outlet/> 
-        </Content>
-      </Layout>
-        <Footer style={{ textAlign: 'center' }}>SASE Hack 2022 Fall : No Bully</Footer>
-    </Layout>
+    <Dashboard/>
+    // <Layout>
+    //   <BackTop/>
+    //   <Layout style={{minHeight: '100vh', marginLeft: 200}}>
+    //     <NavBar/>
+    //     <Content style={{padding: '0 50px'}}>
+    //       <Outlet/> 
+    //     </Content>
+    //   </Layout>
+    //     <Footer style={{ textAlign: 'center' }}>SASE Hack 2022 Fall : No Bully</Footer>
+    // </Layout>
   );
 }
 
