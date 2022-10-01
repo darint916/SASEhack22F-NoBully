@@ -1,9 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 // import counterReducer from '../features/counter/counterSlice';
+import configSettingsReducer from '../features/config-display/ConfigSettingsSlice';
+import interceptionDataReducer from '../features/intercept/InterceptionDataSlice';
 
 export const store = configureStore({
   reducer: {
     // counter: counterReducer,
+    configSettings: configSettingsReducer,
+    interceptionData: interceptionDataReducer,
   },
 });
 
