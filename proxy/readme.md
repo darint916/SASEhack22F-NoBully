@@ -16,3 +16,18 @@
     blockedWords: [],
 }
 ```
+
+```javascript
+{
+    name: "<Intercepter Name>",
+
+    activated: true,
+
+    intercepted: [{
+        'message': '<The message that has been intercepted: str>',
+        'domain': '<The domain that was sent from: str>',
+        'reason': '<Which rule did this trigger: str>',
+        'timestamp': '<Timestamp for the event>'
+    }]
+}
+```

@@ -3,6 +3,9 @@ from typing import Dict
 
 class IMitmProxyAddon:
 
+    def __init__(self) -> None:
+        pass
+
     def report(self) -> Dict[str, str]:
         raise NotImplementedError
 
