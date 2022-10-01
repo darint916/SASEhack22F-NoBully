@@ -28,7 +28,16 @@ def get_intercept():
 
 @api.route('/intercept/report', methods=['POST'])
 def report_intercept():
-    InterceptedJson.data = request.get_json()
+    data = request.get_json()
+    fail = True
+    if data['Websocket Interceptor']['intercepted']:
+        
+        InterceptedJson.data['Websocket Interceptor']['intercepted'] = data['Websocket Interceptor']['intercepted']
+        fail = False
+    if data['Http Interceptor']['intercepted']:
+        InterceptedJson.data['Http Interceptor']['intercepted'] = data['Http Interceptor']['intercepted']
+        fail = False
     return APIResponse.success(AddData(True)).make()
+    
 
 

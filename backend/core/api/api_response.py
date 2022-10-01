@@ -48,7 +48,18 @@ class Config(Serializable):
         return Config.settings
 
 class InterceptedJson:
-    data = {}
+    data = {
+        'Websocket Interceptor': {
+            'activated': False,
+            'intercepted': [],
+            'name': 'Websocket Interceptor',
+        },
+        'Http Interceptor': {
+            'activated': False,
+            'intercepted': [],
+            'name': 'Http Interceptor',
+        }
+    }
     @staticmethod
     def serialize() -> dict:
         return InterceptedJson.data
