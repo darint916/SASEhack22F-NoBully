@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+
+/*
+* STATE MANAGEMENT FOR MESSAGE DATA
+*/
 
 interface interceptionDataState{
     data: DataClass;
