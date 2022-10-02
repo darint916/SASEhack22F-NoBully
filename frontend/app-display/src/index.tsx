@@ -9,7 +9,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-
+/*
+* ROUTES, ALLOWING SCALABILITY
+*/
 root.render(
   <React.StrictMode>
     <Provider store={store}>

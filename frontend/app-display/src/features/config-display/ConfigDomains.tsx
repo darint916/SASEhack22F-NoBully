@@ -1,16 +1,14 @@
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import { Input, Tag, Tooltip } from 'antd';
 import type { InputRef } from 'antd';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 import { useTheme} from '@mui/material/styles';
-import { getTextOfJSDocComment } from 'typescript';
 import {
     FacebookOutlined,
     LinkedinOutlined,
     TwitterOutlined,
-    InstagramFilled,
     InstagramOutlined,
   } from '@ant-design/icons';
 export default function ConfigDomains () {
@@ -82,17 +80,7 @@ export default function ConfigDomains () {
         setInputValue('');
         console.log("running");
     };
-    // useEffect(() => {
-    //     // dispatch(setConfigSettings(response.data));
-    //     let tempTags:any[] = [];
-    //     console.log(domains);
-    //     domains.forEach((domain) => {
-    //         tempTags.push(<Tag closable onClose={handleOnClick}>
-    //             {domain}
-    //           </Tag>);
-    //     });
-    //     setTags(tempTags);
-    // }, []);
+    
     const theme = useTheme();
     const iconStyle = (text:string) => {
         let t = text.toLowerCase()

@@ -10,6 +10,10 @@ import { SocialIcon } from 'react-social-icons';
 import { styled } from '@mui/material/styles';
 import { useTheme} from '@mui/material/styles';
 
+/*
+*   CREATES TABLE OF INTERCEPTED REQUESTS AND DISPLAYS
+*/
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.action.disabledBackground
@@ -17,16 +21,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
       backgroundColor: theme.palette.action.hover
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
     },
 }));
 

@@ -1,13 +1,14 @@
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import { Input, Tag, Tooltip } from 'antd';
 import type { InputRef } from 'antd';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
+
+ /*
+ * CREATES LIST OF TAGS OF BLOCKED WORDS, ALLOWS FOR EDITING TAGS, AND ADDING NEW TAGS
+ * PUSHES CONFIGURATION TO BACKEND
+ */
 export default function ConfigWords() {
-    const dispatch = useAppDispatch();
-    
-    // const domains = useAppSelector((state) => state.configSettings.domains);
     const [tags, setTags] = useState<string[]>([]);
     const [inputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -46,10 +47,6 @@ export default function ConfigWords() {
     const showInput = () => {
         setInputVisible(true);
     };
-
-    const handleOnClick = (e: any) => {
-        console.log(e);
-    }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);

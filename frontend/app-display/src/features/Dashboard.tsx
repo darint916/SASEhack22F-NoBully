@@ -1,22 +1,15 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';    
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useTheme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -24,28 +17,30 @@ import InterceptionTable from './intercept/InterceptionTable';
 import ConfigDomains from './config-display/ConfigDomains';
 import ConfigWords from './config-display/ConfigWords';
 import { ColorModeContext } from '../App';
+
+/*
+* FOOTER FORMAT
+ */
 function Copyright(props: any) {
-const theme = useTheme();
-  return (
-    <Typography variant="body2" color={theme.palette.text.secondary} align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://en.wikipedia.org/wiki/Political_geography_of_Nineteen_Eighty-Four#Oceania">
-        Ingsoc
-      </Link>{' '}
-      1984
-      {'.'}
-    </Typography>
-  );
+    const theme = useTheme();
+    return (
+        <Typography variant="body2" color={theme.palette.text.secondary} align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://en.wikipedia.org/wiki/Political_geography_of_Nineteen_Eighty-Four#Oceania">
+            Ingsoc
+        </Link>{' '}
+        1984
+        {'.'}
+        </Typography>
+    );
 }
 
-
-
-const drawerWidth: number = 240;
-
+/*
+* TOP APPBAR FORMAT
+*/
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -53,44 +48,12 @@ const AppBar = styled(MuiAppBar, {
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+  })
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }),
-);
-
-
+/*
+* DASHBOARD GRID SETUP
+*/
 function DashboardContent() {
     const colorMode = React.useContext(ColorModeContext);
     const theme = useTheme();
@@ -103,7 +66,7 @@ function DashboardContent() {
                 <Typography
                 component="h1"
                 variant="h5"
-                color={theme.palette.text.primary}
+                color='inherit'
                 noWrap
                 sx={{ flexGrow: 1 }}
                 >

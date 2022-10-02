@@ -4,7 +4,9 @@ import { useTheme} from '@mui/material/styles';
 interface TitleProps {
     children?: React.ReactNode;
   }
-  
+  /*
+  * TITLE FORMATTING
+  */
   export default function Title(props: TitleProps) {
     const theme = useTheme();
     return (
