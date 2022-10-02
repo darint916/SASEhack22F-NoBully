@@ -48,6 +48,8 @@ class Config(Serializable):
         return Config.settings
 
 class InterceptedJson:
+    http_messages = set()
+    websocket_messages = set()
     data = {
         'Websocket Interceptor': {
             'activated': False,

@@ -7,8 +7,6 @@ from core.api.api_response import APIResponse, AddData, Config, InterceptedJson
 
 api = Blueprint("api", __name__)
 
-
-
 @api.route('/config/get', methods=['GET'])
 def get_config():
     if Config.settings:
@@ -35,13 +33,19 @@ def get_intercept():
 def report_intercept():
     data = request.get_json()
     fail = True
+
     if data['Websocket Interceptor']['intercepted']:
-        
-        InterceptedJson.data['Websocket Interceptor']['intercepted'] = data['Websocket Interceptor']['intercepted']
-        fail = False
+        for i in data['Websocket Interceptor']['intercepted']:
+            if i['message'] not in InterceptedJson.websocket_messages:
+                InterceptedJson.websocket_messages.add(i['message'])
+                InterceptedJson.data['Websocket Interceptor']['intercepted'].append(i)
+
     if data['Http Interceptor']['intercepted']:
-        InterceptedJson.data['Http Interceptor']['intercepted'] = data['Http Interceptor']['intercepted']
-        fail = False
+        for i in data['Http Interceptor']['intercepted']:
+            if i['message'] not in InterceptedJson.http_messages:
+                InterceptedJson.http_messages.add(i['message'])
+                InterceptedJson.data['Http Interceptor']['intercepted'].append(i)
+
     return APIResponse.success(AddData(True)).make()
     
 
