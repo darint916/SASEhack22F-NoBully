@@ -2,7 +2,7 @@ import pickle
 import numpy
 from nltk.stem.wordnet import WordNetLemmatizer
 import nltk
-from preprocess import preprocess_input
+from model.preprocess import preprocess_input
 
 import json
 
@@ -31,12 +31,12 @@ def prep_data(los):
     return (los, max_size)
 clf = pickle.load(open("model/clf.pkl", "rb"))
 tf = pickle.load(open("model/tf_transformer.pkl", "rb"))
+model = pickle.load(open("model/model.pkl", "rb"))
 
 sentiments = ["religion","age","gender","ethnicity","not bullying"]
 # predict one sentecn at a time
-def predict(sentence, model, clf = clf, tf = tf):
+def predict(sentence, model=model , clf = clf, tf = tf):
 
-    model = pickle.load(open("model/model.pkl", "rb"))
     return sentiments[model.predict(preprocess_input(sentence, clf, tf))[0]]
 
 model = pickle.load(open("model/model.pkl", "rb"))
