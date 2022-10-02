@@ -96,14 +96,14 @@ function DashboardContent() {
     const theme = useTheme();
     return (
         <ThemeProvider theme={theme}>
-        <Box sx={{ display: 'flex' }}>
+        <Box  sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="absolute">
-            <Toolbar>
+            <AppBar position="absolute" >
+            <Toolbar color={theme.palette.background.default}>
                 <Typography
                 component="h1"
                 variant="h5"
-                color='inherit'
+                color={theme.palette.text.primary}
                 noWrap
                 sx={{ flexGrow: 1 }}
                 >

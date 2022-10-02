@@ -50,7 +50,7 @@ export default function InterceptionTable() {
     const theme = useTheme();
     const interceptionData = useAppSelector((state) => state.interceptionData.data);
     const row = interceptionData["Http Interceptor"].intercepted.map((intercepted, index) => {
-        return createData(index, intercepted.message, (new URL(intercepted.domain)).hostname, intercepted.reason, intercepted.timestamp, "Http Interceptor");
+        return createData(index, intercepted.message, (new URL(intercepted.domain)).hostname.replace(/edge-chat\./,''), intercepted.reason, intercepted.timestamp, "Http Interceptor");
     }).filter((intercepted) => {
         if(intercepted.message.length < 1300) {
             return intercepted
@@ -58,7 +58,7 @@ export default function InterceptionTable() {
     });
 
     const row2 = interceptionData["Websocket Interceptor"].intercepted.map((intercepted, index) => {
-        return createData(index, intercepted.message, (new URL(intercepted.domain)).hostname, intercepted.reason, intercepted.timestamp, "Websocket Interceptor");
+        return createData(index, intercepted.message, (new URL(intercepted.domain)).hostname.replace(/edge-chat\./,''), intercepted.reason, intercepted.timestamp, "Websocket Interceptor");
     }).filter((intercepted) => {
         if(intercepted.message.length < 1300) {
             return intercepted
