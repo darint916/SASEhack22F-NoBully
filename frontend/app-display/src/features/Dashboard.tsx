@@ -17,16 +17,17 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import { mainListItems, secondaryListItems } from './listItems';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
+import { useTheme} from '@mui/material/styles';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import InterceptionTable from './intercept/InterceptionTable';
 import ConfigDomains from './config-display/ConfigDomains';
 import ConfigWords from './config-display/ConfigWords';
-
+import { ColorModeContext } from '../App';
 function Copyright(props: any) {
+const theme = useTheme();
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography variant="body2" color={theme.palette.text.secondary} align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://en.wikipedia.org/wiki/Political_geography_of_Nineteen_Eighty-Four#Oceania">
         Ingsoc
@@ -36,6 +37,8 @@ function Copyright(props: any) {
     </Typography>
   );
 }
+
+
 
 const drawerWidth: number = 240;
 
@@ -87,89 +90,86 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
-  return (
-    <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
+    const colorMode = React.useContext(ColorModeContext);
+    const theme = useTheme();
+    return (
+        <ThemeProvider theme={theme}>
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar position="absolute">
+            <Toolbar>
+                <Typography
+                component="h1"
+                variant="h5"
+                color='inherit'
+                noWrap
+                sx={{ flexGrow: 1 }}
+                >
+                Dashboard
+                </Typography>
+                {theme.palette.mode} mode
+                <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                    {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
+            </Toolbar>
+            </AppBar>
+            
+            <Box
+            component="main"
+            sx={{
+                backgroundColor: theme.palette.action.hover,
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
+            }}
             >
-              Dashboard
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/*TRACKED DOMAINS*/}
-              <Grid item xs={6} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: 240,
-                  }}
-                >
-                
-                <ConfigDomains/>
-                </Paper>
-              </Grid>
+            <Toolbar />
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                <Grid container spacing={3}>
+                {/*TRACKED DOMAINS*/}
+                <Grid item xs={6} md={6} lg={6}>
+                    <Paper
+                    sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minHeight: 240,
+                    }}
+                    >
+                    
+                    <ConfigDomains/>
+                    </Paper>
+                </Grid>
 
-              {/* blocked words */}
-              <Grid item xs={6} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: 240,
-                  }}
-                >
-                <ConfigWords/>
-                </Paper>
-              </Grid>
+                {/* blocked words */}
+                <Grid item xs={6} md={6} lg={6}>
+                    <Paper
+                    sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minHeight: 240,
+                    }}
+                    >
+                    <ConfigWords/>
+                    </Paper>
+                </Grid>
 
-              {/* Interceptions */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <InterceptionTable />
-                </Paper>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
+                {/* Interceptions */}
+                <Grid item xs={12}>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <InterceptionTable />
+                    </Paper>
+                </Grid>
+                </Grid>
+                <Copyright sx={{ pt: 4 }} />
+            </Container>
+            </Box>
         </Box>
-      </Box>
-    </ThemeProvider>
-  );
+        </ThemeProvider>
+    );
 }
 
 export default function Dashboard() {

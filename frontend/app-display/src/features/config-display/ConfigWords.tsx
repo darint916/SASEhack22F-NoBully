@@ -34,9 +34,11 @@ export default function ConfigWords() {
         editInputRef.current?.focus();
     }, [inputValue]);
 
+    useEffect(() => {
+        axios.post("http://10.8.0.4:7000/api/config/block/add", tags);
+    }, [tags])
     const handleClose = (removedTag: string) => {
         const newTags = tags.filter(tag => tag !== removedTag);
-        axios.post("http://10.8.0.4:7000/api/config/block/add", newTags);
         console.log(newTags);
         setTags(newTags);
     };
@@ -56,7 +58,6 @@ export default function ConfigWords() {
     const handleInputConfirm = () => {
         if (inputValue && tags.indexOf(inputValue) === -1) {
           setTags([...tags, inputValue]);
-          axios.post("http://10.8.0.4:7000/api/config/block/add", [...tags, inputValue]);
         }
         setInputVisible(false);
         setInputValue('');
@@ -73,7 +74,6 @@ export default function ConfigWords() {
         setEditInputIndex(-1);
         setInputValue('');
         console.log("running");
-        axios.post("http://10.8.0.4:7000/api/config/block/add", [...tags, inputValue]);
     };
     return (<>
         <div style={{ fontSize: '25px' }}>Blocked Words</div>

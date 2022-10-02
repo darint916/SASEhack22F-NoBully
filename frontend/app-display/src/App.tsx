@@ -10,15 +10,40 @@ import Dashboard from './features/Dashboard';
 import { useAppDispatch } from './app/hooks';
 import { setInterceptionData } from './features/intercept/InterceptionDataSlice';
 import { setConfigSettings } from './features/config-display/ConfigSettingsSlice';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
-
+export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 function App() {
+
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+  const colorMode = React.useMemo(() => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode],
+  );
+
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  /*
+   * SHORT POLLING FOR INTERCEPTED MESSAGES (every 3 seconds)
+   */
+  useEffect(() => { 
     
-    const interval = setInterval(() => {
+    setInterval(() => {
       axios.get('http://10.8.0.4:7000/api/intercept/get')
       .then(
         (response) => {
@@ -29,20 +54,12 @@ function App() {
     
   }, []);
   
-
   return (
-    <Dashboard/>
-    // <Layout>
-    //   <BackTop/>
-    //   <Layout style={{minHeight: '100vh', marginLeft: 200}}>
-    //     <NavBar/>
-    //     <Content style={{padding: '0 50px'}}>
-    //       <Outlet/> 
-    //     </Content>
-    //   </Layout>
-    //     <Footer style={{ textAlign: 'center' }}>SASE Hack 2022 Fall : No Bully</Footer>
-    // </Layout>
-  );
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <Dashboard/>
+      </ThemeProvider>
+    </ColorModeContext.Provider>);
 }
 
 export default App;

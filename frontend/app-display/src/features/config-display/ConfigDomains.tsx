@@ -4,6 +4,15 @@ import { Input, Tag, Tooltip } from 'antd';
 import type { InputRef } from 'antd';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
+import { useTheme} from '@mui/material/styles';
+import { getTextOfJSDocComment } from 'typescript';
+import {
+    FacebookOutlined,
+    LinkedinOutlined,
+    TwitterOutlined,
+    InstagramFilled,
+    InstagramOutlined,
+  } from '@ant-design/icons';
 export default function ConfigDomains () {
     const dispatch = useAppDispatch();
     
@@ -34,9 +43,12 @@ export default function ConfigDomains () {
         editInputRef.current?.focus();
     }, [inputValue]);
 
+    useEffect(() => {
+        axios.post("http://10.8.0.4:7000/api/config/domain/add", tags);
+    }, [tags]);
+
     const handleClose = (removedTag: string) => {
         const newTags = tags.filter(tag => tag !== removedTag);
-        axios.post("http://10.8.0.4:7000/api/config/domain/add", newTags);
         console.log(newTags);
         setTags(newTags);
     };
@@ -53,7 +65,6 @@ export default function ConfigDomains () {
     const handleInputConfirm = () => {
         if (inputValue && tags.indexOf(inputValue) === -1) {
           setTags([...tags, inputValue]);
-          axios.post("http://10.8.0.4:7000/api/config/domain/add", [...tags, inputValue]);
         }
         setInputVisible(false);
         setInputValue('');
@@ -70,7 +81,6 @@ export default function ConfigDomains () {
         setEditInputIndex(-1);
         setInputValue('');
         console.log("running");
-        axios.post("http://10.8.0.4:7000/api/config/domain/add", [...tags, inputValue]);
     };
     // useEffect(() => {
     //     // dispatch(setConfigSettings(response.data));
@@ -83,6 +93,22 @@ export default function ConfigDomains () {
     //     });
     //     setTags(tempTags);
     // }, []);
+    const theme = useTheme();
+    const iconStyle = (text:string) => {
+        let t = text.toLowerCase()
+        if(t.includes("linkedin")) {
+            return <LinkedinOutlined/>;
+        } else if(t.includes("facebook")) {
+            return <FacebookOutlined/>;
+        }
+        else if(t.includes("twitter")) {
+            return <TwitterOutlined/>;
+        }
+        else if(t.includes("instagram")) {
+            return <InstagramOutlined/>;
+        }
+        return null;
+    };
     return (<>
         <div style={{ fontSize: '25px' }}>Tracked Domains</div>
         {tags.map((tag, index) => {
@@ -108,6 +134,7 @@ export default function ConfigDomains () {
             className="edit-tag"
             key={tag}
             closable={true}
+            icon={iconStyle(tag)}
             onClose={() => handleClose(tag)}
           >
             <span
@@ -144,8 +171,8 @@ export default function ConfigDomains () {
         />
       )}
       {!inputVisible && (
-        <Tag className="site-tag-plus" onClick={showInput}>
-          <PlusOutlined /> New Tag
+        <Tag className="site-tag-plus"  onClick={showInput}>
+          <PlusOutlined /> <span color={theme.palette.text.secondary}>New Tag</span>
         </Tag>
       )}
     </>);
