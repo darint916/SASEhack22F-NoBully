@@ -15,9 +15,14 @@ def get_config():
         return APIResponse.success(Config).make()
     return APIResponse.success(AddData(True)).make()
 
-@api.route('/config/add', methods=['POST'])
-def create_config():
-    Config.settings = request.get_json()
+@api.route('/config/domain/add', methods=['POST'])
+def create_domain():
+    Config.settings['domain'] = request.get_json()
+    return APIResponse.success(AddData(True)).make()
+
+@api.route('/config/block/add', methods=['POST'])
+def create_block():
+    Config.settings['blockedWords'] = request.get_json()
     return APIResponse.success(AddData(True)).make()
 
 @api.route('/intercept/get', methods=['GET'])
