@@ -5,11 +5,11 @@ import "antd/dist/antd.css";
 import { Outlet } from 'react-router-dom';
 import { BackTop, Layout } from 'antd';
 import { Content, Footer } from 'antd/lib/layout/layout';
-import NavBar from './features/navbar/NavBar';
 import axios from 'axios';
 import Dashboard from './features/Dashboard';
 import { useAppDispatch } from './app/hooks';
 import { setInterceptionData } from './features/intercept/InterceptionDataSlice';
+import { setConfigSettings } from './features/config-display/ConfigSettingsSlice';
 
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    
     const interval = setInterval(() => {
       axios.get('http://10.8.0.4:7000/api/intercept/get')
       .then(
@@ -25,6 +26,7 @@ function App() {
           dispatch(setInterceptionData(response.data.data));
         });
         },3000);
+    
   }, []);
   
 

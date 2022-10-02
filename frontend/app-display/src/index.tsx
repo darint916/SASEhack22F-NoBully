@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import ConfigDisplay from './features/config-display/ConfigDisplay';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -18,7 +17,6 @@ root.render(
         <Routes>
           <Route path="/" element = {<App/>}>
             <Route index element = {<Navigate replace to="config" />} />
-            <Route path="config" element = {<ConfigDisplay/>} />
           </Route>
         </Routes>
       </BrowserRouter>

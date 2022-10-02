@@ -21,6 +21,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 import InterceptionTable from './intercept/InterceptionTable';
+import ConfigDomains from './config-display/ConfigDomains';
+import ConfigWords from './config-display/ConfigWords';
 
 function Copyright(props: any) {
   return (
@@ -98,23 +100,7 @@ function DashboardContent() {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
+          <Toolbar>
             <Typography
               component="h1"
               variant="h6"
@@ -124,33 +110,9 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            {/* {mainListItems} */}
-            <Divider sx={{ my: 1 }} />
-            {/* {secondaryListItems} */}
-          </List>
-        </Drawer>
+        
         <Box
           component="main"
           sx={{
@@ -166,32 +128,35 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              {/*TRACKED DOMAINS*/}
+              <Grid item xs={6} md={6} lg={6}>
                 <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    minHeight: 240,
                   }}
                 >
-                  {/* <Chart /> */}
+                
+                <ConfigDomains/>
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+
+              {/* blocked words */}
+              <Grid item xs={6} md={6} lg={6}>
                 <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    minHeight: 240,
                   }}
                 >
-                  {/* <Deposits /> */}
+                <ConfigWords/>
                 </Paper>
               </Grid>
+
               {/* Interceptions */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
