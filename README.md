@@ -8,7 +8,7 @@ mitmproxy intercepts all web traffic.
 ### Backend
 1. Cd to backend directory
 2. Install dependencies with `pip install -r requirements.txt`
-3. Run `python app.py`
+3. Run `python main.py`
 
 ### Frontend
 1. Cd to frontend directory
