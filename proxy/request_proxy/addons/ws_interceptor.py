@@ -6,6 +6,7 @@ from request_proxy.addons.utils import utils
 from request_proxy.addons.utils.config import Config
 from request_proxy.interface.IMitmProxyAddon import IMitmProxyAddon
 from request_proxy.InterceptedMessage import InterceptedMessage
+from request_proxy.model.predict import predict, model
 
 class InterceptorWs(IMitmProxyAddon):
 
@@ -13,7 +14,8 @@ class InterceptorWs(IMitmProxyAddon):
         self._activated = True
         self.config: Config = Config()
         self.message_intercepted: List[InterceptedMessage] = []
-        
+        self.blocked = []
+
     def websocket_message(self, flow: http.HTTPFlow):
         if (not self._activated):
             return
@@ -28,15 +30,29 @@ class InterceptorWs(IMitmProxyAddon):
 
             msg_decoded = msg[msg_idx:].decode('utf-8')
             # ctx.log.alert()
-            if (utils.match_word(self.config.blockedWords, msg_decoded)):
+            if (utils.match_word(self.config.blockedWords, msg_decoded) or utils.match_word(self.blocked, msg_decoded)):
                 ctx.log.error(f"Websocket message intercepted --. {flow.request.url}")
                 flow.websocket.messages[-1].drop()
                 if ("instagram" in flow.request.url):
                     sent_msg = utils.extract_insta(msg_decoded)
+                if (sent_msg == ''):
+                    return;
                 icpt = InterceptedMessage(sent_msg, flow.request.url, "Blocked Word")
                 self.message_intercepted.append(icpt)
                 ctx.log.error(f"Intercepted message: {icpt.to_dict()}")
 
+            if ("instagram" in flow.request.url):
+                sent_msg = utils.extract_insta(msg_decoded)
+                if (sent_msg == ""):
+                    return
+                bl = predict(sent_msg, model)
+                if (bl == "not bullying"):
+                    return
+                flow.websocket.messages[-1].drop()
+                self.blocked.append(sent_msg)
+                icpt = InterceptedMessage(sent_msg, flow.request.url, f"AI-{bl}")
+                self.message_intercepted.append(icpt)
+                ctx.log.error(f"AI Intercepted message: {icpt.to_dict()}")
 
     def report(self) -> Dict[str, str]:
         return {

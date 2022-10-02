@@ -56,6 +56,9 @@ def extract_twitter(twitter):
         return twitter
 
 def extract_insta(insta):
-    j = json.loads(insta)
-    jd = json.loads(j[0]["data"][0]["value"])
-    return jd['text']
+    try:
+        j = json.loads(insta)
+        jd = json.loads(j[0]["data"][0]["value"])
+        return jd['text']
+    except:
+        return ""
