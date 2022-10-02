@@ -1,7 +1,8 @@
 # SASEhack22F-NoBully
 
 The ultimate anti-cyberbullying proxy application.
-mitmproxy intercepts all web traffic.
+mitmproxy intercepts all web traffic and tracks bullying messages and reports to app.
+Devpost: https://devpost.com/software/why-you-bully-me
 
 ## Setting up
 
