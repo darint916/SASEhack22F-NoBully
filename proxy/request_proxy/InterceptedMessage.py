@@ -16,3 +16,6 @@ class InterceptedMessage:
             'reason': self.reason,
             'timestamp': self.timestamp
         }
+
+    def __str__(self) -> str:
+        return json.dumps(self.to_dict())

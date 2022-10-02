@@ -13,11 +13,12 @@ class InterceptorWs(IMitmProxyAddon):
         self._activated = True
         self.config: Config = Config()
         self.message_intercepted: List[InterceptedMessage] = []
-
+        
     def websocket_message(self, flow: http.HTTPFlow):
         if (not self._activated):
             return
 
+        # ctx.log.error(f"Websocket message intercepted --. {flow.request.url}")
         if (utils.match_url(self.config.domains, flow.request.url)):
             msg = flow.websocket.messages[-1].content
             try:
@@ -28,9 +29,14 @@ class InterceptorWs(IMitmProxyAddon):
             msg_decoded = msg[msg_idx:].decode('utf-8')
             # ctx.log.alert()
             if (utils.match_word(self.config.blockedWords, msg_decoded)):
-                ctx.log.alert(f"Websocket message intercepted --. {flow.request.url}")
+                ctx.log.error(f"Websocket message intercepted --. {flow.request.url}")
                 flow.websocket.messages[-1].drop()
-                self.message_intercepted.append(InterceptedMessage(flow.request.text, flow.request.url, "Websocket"))
+                if ("instagram" in flow.request.url):
+                    sent_msg = utils.extract_insta(msg_decoded)
+                icpt = InterceptedMessage(sent_msg, flow.request.url, "Blocked Word")
+                self.message_intercepted.append(icpt)
+                ctx.log.error(f"Intercepted message: {icpt.to_dict()}")
+
 
     def report(self) -> Dict[str, str]:
         return {
@@ -40,10 +46,8 @@ class InterceptorWs(IMitmProxyAddon):
         }
 
     def use_config(self, config):
-        if (config.get('domains')):
-            self.config['domains'] = config['domains']
-        if (config.get('words')):
-            self.config['blockedWords'] = config['blockedWords']
+        self.config.load_cfg(config)
+        ctx.log.error(f"Config received: {config}")
 
     def activate(self, activate: bool):
         self._activated = activate

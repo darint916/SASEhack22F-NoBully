@@ -1,3 +1,4 @@
+from ctypes import util
 import re
 from typing import Dict, List
 from flask import Config
@@ -17,14 +18,28 @@ class InterceptorHttp(IMitmProxyAddon):
         self.config: Config = Config()
         self.message_intercepted: List[InterceptedMessage] = []
 
-    def request(self, flow: http.HTTPFlow) -> None:
+    def response(self, flow: http.HTTPFlow) -> None:
         if (not self._activated):
             return
 
         if (utils.match_url(self.config.domains, flow.request.url)):
-            if (utils.match_word(self.config.blockedWords, flow.request.text)):
-                ctx.log.alert(f"Request intercepted. {flow.request.url}")
-                self.message_intercepted.append(InterceptedMessage(flow.request.text, flow.request.url, "Request"))
+            # ctx.log.error(flow.response)
+            if (not flow.response):
+                return
+            # ctx.log.error(f"Intercepted request: {flow.request.url}")
+            if (utils.match_word(self.config.blockedWords, flow.response.get_text(False))):
+                # ctx.log.error(f"Request intercepted. {flow.request.}")
+                flow.kill()
+                if ('instagram' in flow.request.url):
+                    return
+                if ("twitter" in flow.request.url):
+                    ctx.log.error(utils.extract_twitter(flow.response.get_text(False)))
+                    self.message_intercepted.append(InterceptedMessage(
+                        utils.extract_twitter(flow.response.get_text(False)),
+                        flow.request.url,
+                        "Blocked word"
+                    ))
+                self.message_intercepted.append(InterceptedMessage(flow.response.text, flow.request.url, "Request"))
 
     def report(self) -> Dict[str, str]:
         return {

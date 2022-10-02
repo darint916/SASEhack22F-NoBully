@@ -17,12 +17,14 @@ class Background:
         report = {}
         for addon in self.addons:
             report[addon.addon_name()] = addon.report()
-            ctx.log.error(f"Report: {report}")
+            # ctx.log.error(f"Report: {report}")
         self.api.post_report(report)
 
     def pull_cfg(self):
+        ctx.log.info("Pulling config")
         config = self.api.get_config()
         if (config != self.last_config):
+            ctx.log.error(f"Config changed: {config}")
             self.last_config = config
             for addon in self.addons:
                 addon.use_config(config)
@@ -35,7 +37,7 @@ class Background:
         while True:
             try:
                 self.pull_cfg()
-                time.sleep(30)
+                time.sleep(3)
                 self.report()
             except Exception as e:
                 data = "".join(traceback.format_exception(type(e), e, e.__traceback__))

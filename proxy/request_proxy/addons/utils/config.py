@@ -1,16 +1,21 @@
 import re
+from mitmproxy import ctx
 
 
 class Config:
 
     def __init__(self) -> None:
-        self.domains = [re.compile(".*instagram.com.*")]
-        self.blockedWords = ["abcd"]
+        self.domains = []
+        self.blockedWords = []
 
     def load_cfg(self, config: dict):
-        # if (config.get('domains')):
-        #     self.domains = [re.compile(i) for i in config['domains']]
-        # if (config.get('blockedWords')):
-        #     # self.blockedWords = [re.compile(i) for i in config['blockedWords']]
-        #     self.blockedWords = config['blockedWords']        
-        pass
+        ctx.log.error(f"Config received: {config}")
+        if (config.get('domain')):
+            self.domains = [re.compile(i) for i in config['domain']]
+        if (config.get('blockedWords')):
+            self.blockedWords = config['blockedWords']
+            # self.blockedWords = config['blockedWords']  
+            # 
+
+    def __str__(self) -> str:
+        return f"Domains: {self.domains}, Blocked words: {self.blockedWords}"      
