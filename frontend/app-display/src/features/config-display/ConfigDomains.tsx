@@ -11,6 +11,12 @@ import {
     TwitterOutlined,
     InstagramOutlined,
   } from '@ant-design/icons';
+
+ /*
+ * CREATES LIST OF TRACKED DOMAIN TAGS, ALLOWS FOR EDITING TAGS, AND ADDING NEW TAGS
+ * PUSHES CONFIGURATION TO BACKEND
+ */
+
 export default function ConfigDomains () {
     const dispatch = useAppDispatch();
     
@@ -80,7 +86,7 @@ export default function ConfigDomains () {
         setInputValue('');
         console.log("running");
     };
-    
+
     const theme = useTheme();
     const iconStyle = (text:string) => {
         let t = text.toLowerCase()
